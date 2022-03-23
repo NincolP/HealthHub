@@ -1,25 +1,41 @@
 package com.example.healthhub;
 
+import static android.content.ContentValues.TAG;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.OAuthCredential;
+import com.google.firebase.auth.internal.zzx;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class RegistrationActivity extends AppCompatActivity {
 
     EditText firstName,lastName, dob, address, unitNum, city, state,zipCode,email, password;
     Patient patient;
+    /*FirebaseDatabase database;
     DatabaseReference ref;
+    FirebaseAuth auth;
+    //FirebaseAuth.AuthStateListener authStateListener;
+    String userId =null;*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,22 +58,21 @@ public class RegistrationActivity extends AppCompatActivity {
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
 
-        ref = FirebaseDatabase.getInstance().getReference().child("Patients");
-
-        //Instantiate a patient object
-        patient = new Patient();
 
         //Register button
         Button register = findViewById(R.id.button2);
 
-        //FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+        //create a database instance
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
 
         //button action
        register.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
+
+               patient = new Patient();
                patient.setFirstName(firstName.getText().toString());
                patient.setLastName(lastName.getText().toString());
                patient.setDateOfBirth(dob.getText().toString());
@@ -65,26 +80,15 @@ public class RegistrationActivity extends AppCompatActivity {
                patient.setCity(city.getText().toString());
                patient.setState(state.getText().toString());
                patient.setZipCode(zipCode.getText().toString());
-               //patient.setEmail(email.getText().toString());
-               //patient.setPassword(password.getText().toString());
+               patient.setEmail(email.getText().toString());
+               patient.setPassword(password.getText().toString());
 
-               ref.push().setValue(patient);
-
-               //db.collection("Patients").document("newUser").set(patient);
+               //Insert java object into firebase database
+               db.collection("Patients").document().set(patient);
 
            }
        });
 
-
-
-
-        //Saving username and password as shown in class TODO decide username and password storage
-        //The other option is to place this data in database
-        /*SharedPreferences preferences=getSharedPreferences("credentials", MODE_PRIVATE);
-        SharedPreferences.Editor editor= preferences.edit();
-        editor.putString("username", userName.getText().toString());
-        editor.putString("password", password.getText().toString());
-        editor.commit();*/
 
     }
 

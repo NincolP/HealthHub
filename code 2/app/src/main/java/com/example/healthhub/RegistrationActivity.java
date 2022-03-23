@@ -31,11 +31,6 @@ public class RegistrationActivity extends AppCompatActivity {
 
     EditText firstName,lastName, dob, address, unitNum, city, state,zipCode,email, password;
     Patient patient;
-    /*FirebaseDatabase database;
-    DatabaseReference ref;
-    FirebaseAuth auth;
-    //FirebaseAuth.AuthStateListener authStateListener;
-    String userId =null;*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,8 +78,24 @@ public class RegistrationActivity extends AppCompatActivity {
                patient.setEmail(email.getText().toString());
                patient.setPassword(password.getText().toString());
 
-               //Insert java object into firebase database
-               db.collection("Patients").document().set(patient);
+               //Checking if password is valid
+               //At least one capital,lower case, special character and one digit
+               if(patient.validPassword()) {
+                   //Insert java object into firebase database
+                   db.collection("Patients").document().set(patient);
+               }
+
+
+               //TODO working to display an error message when the user does not enter a valid password
+               else {
+                   password.setError("Invalid password. Enter at least one uppercase, one lower case" +
+                           "one special character and one number");
+                   password.requestFocus();
+               }
+
+
+
+
 
            }
        });

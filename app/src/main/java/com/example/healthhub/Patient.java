@@ -97,4 +97,26 @@ public class Patient {
     public void setPassword(String password) {
         this.password = password;
     }
+
+
+    public boolean validPassword () {
+        int capitalCounter = 0, specialCounter = 0, numCounter = 0,lowerCaseCounter = 0;
+
+        for(int i = 0; i < password.length(); i++) {
+            if(Character.isDigit(password.charAt(i))) numCounter++;
+            else if(Character.isUpperCase(password.charAt(i))) capitalCounter++;
+            else if(Character.isLowerCase(password.charAt(i))) lowerCaseCounter++;
+            else if(!Character.isLetter(password.charAt(i)) && !Character.isDigit(password.charAt(i)))specialCounter++;
+        }
+        if(capitalCounter > 0 && lowerCaseCounter > 0 && numCounter > 0 && specialCounter > 0){
+            return true;
+        }
+        else
+            return false;
+
+
+    }
+
+
+
 }

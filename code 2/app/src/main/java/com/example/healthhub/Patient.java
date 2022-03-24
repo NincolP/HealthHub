@@ -99,6 +99,9 @@ public class Patient {
     }
 
 
+    //Valid password registration method
+    //Password must contain at least 8 characters. These characters must contain at least one of each:
+    //One uppercase, lower case, special character and number.
     public boolean validPassword () {
         int capitalCounter = 0, specialCounter = 0, numCounter = 0,lowerCaseCounter = 0;
 
@@ -108,13 +111,11 @@ public class Patient {
             else if(Character.isLowerCase(password.charAt(i))) lowerCaseCounter++;
             else if(!Character.isLetter(password.charAt(i)) && !Character.isDigit(password.charAt(i)))specialCounter++;
         }
-        if(capitalCounter > 0 && lowerCaseCounter > 0 && numCounter > 0 && specialCounter > 0){
+        if(capitalCounter > 0 && lowerCaseCounter > 0 && numCounter > 0 && specialCounter > 0 && password.length() > 7){
             return true;
         }
         else
             return false;
-
-
     }
 
 

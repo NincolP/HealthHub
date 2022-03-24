@@ -1,0 +1,71 @@
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `pharmacy`
+----------------------------------------
+CREATE TABLE `company` (
+  `NAME` varchar(50) NOT NULL,
+  `ADDRESS` varchar(50) NOT NULL,
+  `PHONE` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `company`
+--
+
+INSERT INTO `company` (`NAME`, `ADDRESS`, `PHONE`) VALUES
+('Cipla', 'Mumbai', '12903'),
+('Sun Pharma', 'Mysore', '01289078443'),
+('Med_City', 'Nellore', '010114367832');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `drugs`
+--
+
+CREATE TABLE `drugs` (
+  `NAME` varchar(50) NOT NULL,
+  `TYPE` varchar(20) NOT NULL,
+  `BARCODE` varchar(20) NOT NULL,
+  `DOSE` varchar(10) NOT NULL,
+  `CODE` varchar(10) NOT NULL,
+  `COST_PRICE` double NOT NULL,
+  `SELLING_PRICE` double NOT NULL,
+  `EXPIRY` varchar(20) NOT NULL,
+  `COMPANY_NAME` varchar(50) NOT NULL,
+  `PRODUCTION_DATE` date NOT NULL,
+  `EXPIRATION_DATE` date NOT NULL,
+  `PLACE` varchar(20) NOT NULL,
+  `QUANTITY` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `drugs`
+--
+
+INSERT INTO `drugs` (`NAME`, `TYPE`, `BARCODE`, `DOSE`, `CODE`, `COST_PRICE`, `SELLING_PRICE`, `EXPIRY`, `COMPANY_NAME`, `PRODUCTION_DATE`, `EXPIRATION_DATE`, `PLACE`, `QUANTITY`) VALUES
+('Novalo', 'Bills', 'fsdgjfihjorodsf', 'normal', '3d00', 2, 3, 'Available for use', 'Med_City', '2017-03-03', '2019-03-03', 'N-Right', 40),
+('novafol', 'Bills', 'ftrkl432432md', 'normal', '2xaa', 33, 40, 'Available for use', 'Med_City', '2016-01-01', '2017-01-01', 'N-Left', 27);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `expiry`
+--
+
+CREATE TABLE `expiry` (
+  `PRODUCT_NAME` varchar(50) NOT NULL,
+  `PRODUCT_CODE` varchar(20) NOT NULL,
+  `DATE_OF_EXPIRY` varchar(10) NOT NULL,
+  `QUANTITY_REMAIN` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------

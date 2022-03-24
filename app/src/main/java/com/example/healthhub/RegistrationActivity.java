@@ -86,10 +86,11 @@ public class RegistrationActivity extends AppCompatActivity {
                }
 
 
-               //TODO working to display an error message when the user does not enter a valid password
+               //User will get a warning if password does not have at least one fo the following:
+               //Uppercase, lowercase, special character and number.
                else {
-                   password.setError("Invalid password. Enter at least one uppercase, one lower case" +
-                           "one special character and one number");
+                   password.setError("Invalid password. Enter at least one of the following: uppercase,lower case," +
+                           "special character, number. Password length must be least eight characters");
                    password.requestFocus();
                }
 

@@ -1,6 +1,6 @@
 package com.example.healthhub;
 
-public class Patient {
+public class User {
 
     private String firstName;
     private String lastName;
@@ -12,9 +12,10 @@ public class Patient {
     private String zipCode;
     private String email;
     private String password;
+    private String userId;
 
 
-    public Patient() {
+    public User() {
 
     }
 
@@ -96,6 +97,11 @@ public class Patient {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+
     }
 
 

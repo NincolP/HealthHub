@@ -23,4 +23,22 @@ public class Login {
     public void setPassword(String password) {
         this.password = password;
     }
+
+
+
+    public boolean blankEmail () {
+
+        if (userName == null)
+            return true;
+        else
+            return false;
+    }
+
+    public  boolean blankPassword() {
+        if(password == null)
+            return true;
+        else
+            return false;
+    }
+
 }

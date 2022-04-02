@@ -4,6 +4,7 @@ import static android.content.ContentValues.TAG;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.helper.widget.MotionEffect;
 
 
 import android.content.Intent;
@@ -16,24 +17,17 @@ import android.widget.Toast;
 
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.OAuthCredential;
-import com.google.firebase.auth.internal.zzx;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class RegistrationActivity extends AppCompatActivity {
 
     EditText firstName,lastName, dob, address, unitNum, city, state,zipCode,email, password;
-    Patient patient;
+    User user;
+    String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +37,11 @@ public class RegistrationActivity extends AppCompatActivity {
         //To display back arrow that can take user back to MainActivity
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        //FirebaseUser user;
+        //create a database instance
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
 
         firstName =findViewById(R.id.firstName);
@@ -56,16 +55,11 @@ public class RegistrationActivity extends AppCompatActivity {
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
 
-
         //Register button
         Button register = findViewById(R.id.button2);
 
 
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        FirebaseUser user = auth.getCurrentUser();
 
-        //create a database instance
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
 
         //button action
@@ -73,50 +67,68 @@ public class RegistrationActivity extends AppCompatActivity {
            @Override
            public void onClick(View view) {
 
-               patient = new Patient();
-               patient.setFirstName(firstName.getText().toString());
-               patient.setLastName(lastName.getText().toString());
-               patient.setDateOfBirth(dob.getText().toString());
-               patient.setUnitNumber(unitNum.getText().toString());
-               patient.setCity(city.getText().toString());
-               patient.setState(state.getText().toString());
-               patient.setZipCode(zipCode.getText().toString());
-               patient.setEmail(email.getText().toString());
-               patient.setPassword(password.getText().toString());
+               user = new User();
+               user.setFirstName(firstName.getText().toString());
+               user.setLastName(lastName.getText().toString());
+               user.setDateOfBirth(dob.getText().toString());
+               user.setUnitNumber(unitNum.getText().toString());
+               user.setCity(city.getText().toString());
+               user.setState(state.getText().toString());
+               user.setZipCode(zipCode.getText().toString());
+               user.setEmail(email.getText().toString());
+               user.setPassword(password.getText().toString());
+
 
                //Checking if password is valid
                //At least one capital,lower case, special character and one digit
-               if(patient.validPassword()) {
+               if(user.validPassword()) {
                    //An email will be send to the user if registration is successful.
-                   auth.createUserWithEmailAndPassword(email.getText().toString(),password.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                       @Override
+                  auth.createUserWithEmailAndPassword(email.getText().toString(),password.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                      @Override
                        public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()) {
 
-                                //assert user != null;
+                                user.setUserId(auth.getUid());
                                 auth.getCurrentUser().sendEmailVerification()
                                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
                                                 Log.d(TAG, "Email sent.");
+
                                             }
                                         });
                                 Toast.makeText(RegistrationActivity.this, "Registration successful. Confirmation email sent. Check your email.", Toast.LENGTH_LONG).show();
                             }
                             else {
+                                Log.w(MotionEffect.TAG, "User registration failed", task.getException());
                                 Toast.makeText(RegistrationActivity.this, task.getException().getMessage(),Toast.LENGTH_LONG).show();
                             }
                        }
                    });
                    //Successful registration would Insert java object into firebase database
-                   //and take the user to the options activity
-                   db.collection("Patients").document().set(patient).addOnCompleteListener(new OnCompleteListener<Void>() {
+
+                    DocumentReference newUser = db.collection("Users").document();
+                    //user.setUserId(newUser.toString());
+                   user.setUserId(newUser.getId());
+
+                   newUser.set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                        @Override
                        public void onComplete(@NonNull Task<Void> task) {
+                           if(task.isSuccessful()) {
+
+                               Log.d(TAG, "Data successfully saved in database");
+                                //db.collection("Users").document().getParent().document().update().
+                               newUser.update("password", "***********");
+                               newUser.update("UserId", newUser.getId());
+                           }
+                           /*else {
+                               Log.w(MotionEffect.TAG, "sign in failure", task.getException());
+                           }*/
                            Intent intentlog = new Intent(RegistrationActivity.this, Options.class);
                            startActivity(intentlog);
                        }
                    });
+
 
 
                }

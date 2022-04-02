@@ -1,11 +1,21 @@
 package com.example.healthhub;
 
+import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class resetUserOrPass extends AppCompatActivity {
@@ -26,8 +36,29 @@ public class resetUserOrPass extends AppCompatActivity {
         //Instantiating a database object to access database.
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+        //Instantiating authorization object
+        FirebaseAuth auth = FirebaseAuth.getInstance();
 
 
+        resetPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                auth.sendPasswordResetEmail(email.getText().toString())
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    Log.d(TAG, "Email sent.");
+                                    Toast.makeText(resetUserOrPass.this, "Password reset email has been sent. Check your email", Toast.LENGTH_LONG).show();
+                                    //After reset email has been sent, user will be taken to the log in page.
+                                    Intent login = new Intent(resetUserOrPass.this, Login.class);
+                                }
+
+
+                            }
+                        });
+            }
+        });
 
     }
 

@@ -34,11 +34,8 @@ INSERT INTO `company` (`NAME`, `ADDRESS`, `PHONE`) VALUES
 CREATE TABLE `drugs` (
   `NAME` varchar(50) NOT NULL,
   `TYPE` varchar(20) NOT NULL,
-  `BARCODE` varchar(20) NOT NULL,
   `DOSE` varchar(10) NOT NULL,
   `CODE` varchar(10) NOT NULL,
-  `COST_PRICE` double NOT NULL,
-  `SELLING_PRICE` double NOT NULL,
   `EXPIRY` varchar(20) NOT NULL,
   `COMPANY_NAME` varchar(50) NOT NULL,
   `PRODUCTION_DATE` date NOT NULL,
@@ -51,7 +48,7 @@ CREATE TABLE `drugs` (
 -- Dumping data for table `drugs`
 --
 
-INSERT INTO `drugs` (`NAME`, `TYPE`, `BARCODE`, `DOSE`, `CODE`, `COST_PRICE`, `SELLING_PRICE`, `EXPIRY`, `COMPANY_NAME`, `PRODUCTION_DATE`, `EXPIRATION_DATE`, `PLACE`, `QUANTITY`) VALUES
+INSERT INTO `drugs` (`NAME`, `TYPE`, `DOSE`, `CODE`, `EXPIRY`, `COMPANY_NAME`, `PRODUCTION_DATE`, `EXPIRATION_DATE`, `PLACE`, `QUANTITY`) VALUES
 ('Novalo', 'Bills', 'fsdgjfihjorodsf', 'normal', '3d00', 2, 3, 'Available for use', 'Med_City', '2017-03-03', '2019-03-03', 'N-Right', 40),
 ('novafol', 'Bills', 'ftrkl432432md', 'normal', '2xaa', 33, 40, 'Available for use', 'Med_City', '2016-01-01', '2017-01-01', 'N-Left', 27);
 

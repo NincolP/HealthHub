@@ -19,11 +19,13 @@ public class Options extends AppCompatActivity {
 
         Button logout = findViewById(R.id.logoutButton);
 
+
+        //Take the user to the make appointment activity
         makeAppoinmnet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Intent intent4 = new Intent(Options.this, TODO change to the name of the new activity **Options**+.class);
-                //startActivity(intent4);
+                Intent makeAppointment = new Intent(Options.this, MakeAppointment.class);
+                startActivity(makeAppointment);
             }
         });
 

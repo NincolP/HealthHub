@@ -23,6 +23,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Objects;
+
 public class RegistrationActivity extends AppCompatActivity {
 
     EditText firstName,lastName, dob, address, unitNum, city, state,zipCode,email, password;
@@ -87,17 +89,32 @@ public class RegistrationActivity extends AppCompatActivity {
                       @Override
                        public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()) {
-
-                                user.setUserId(auth.getUid());
                                 auth.getCurrentUser().sendEmailVerification()
                                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
-                                                Log.d(TAG, "Email sent.");
+                                                Log.d(TAG, "Registration email sent.");
+                                                Toast.makeText(RegistrationActivity.this, "Registration successful. Confirmation email sent. Check your email.", Toast.LENGTH_LONG).show();
+                                                DocumentReference newUser = db.collection("Users").document(auth.getUid());
+                                                //user.setUserId(newUser.getId());
+                                                newUser.set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                        if(task.isSuccessful()) {
+                                                            Log.d(TAG, "Data successfully saved in database");
+                                                            newUser.update("password", "***********");
+                                                            Intent reg = new Intent(RegistrationActivity.this, Options.class);
+                                                            startActivity(reg);
+                                                        }
 
+                                                        else {
+                                                        Log.w(MotionEffect.TAG, "Registration failure", task.getException());
+                                                        }
+
+                                                    }
+                                                });
                                             }
                                         });
-                                Toast.makeText(RegistrationActivity.this, "Registration successful. Confirmation email sent. Check your email.", Toast.LENGTH_LONG).show();
                             }
                             else {
                                 Log.w(MotionEffect.TAG, "User registration failed", task.getException());
@@ -106,30 +123,6 @@ public class RegistrationActivity extends AppCompatActivity {
                        }
                    });
                    //Successful registration would Insert java object into firebase database
-
-                    DocumentReference newUser = db.collection("Users").document();
-                    //user.setUserId(newUser.toString());
-                   user.setUserId(newUser.getId());
-
-                   newUser.set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
-                       @Override
-                       public void onComplete(@NonNull Task<Void> task) {
-                           if(task.isSuccessful()) {
-
-                               Log.d(TAG, "Data successfully saved in database");
-                                //db.collection("Users").document().getParent().document().update().
-                               newUser.update("password", "***********");
-                               newUser.update("UserId", newUser.getId());
-                           }
-                           /*else {
-                               Log.w(MotionEffect.TAG, "sign in failure", task.getException());
-                           }*/
-                           Intent intentlog = new Intent(RegistrationActivity.this, Options.class);
-                           startActivity(intentlog);
-                       }
-                   });
-
-
 
                }
 

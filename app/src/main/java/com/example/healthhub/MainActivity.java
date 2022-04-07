@@ -24,8 +24,13 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -50,18 +55,10 @@ public class MainActivity extends AppCompatActivity {
         //Mapping BUTTON ELEMENT
         button = findViewById(R.id.button);
 
-        //FirebaseFirestore db = FirebaseFirestore.getInstance();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseAuth auth = FirebaseAuth.getInstance();
 
-        //FirebaseUser user = auth.getCurrentUser();
-        //FirebaseUser user = auth.getCurrentUser();
 
-
-
-
-
-
-        //auth.updateCurrentUser(auth.getCurrentUser());
 
         //Log in- Check username and password store in Firestore database to authenticate the user
         //If successful, user will be directed to the options page. If not a log in failure message
@@ -81,8 +78,8 @@ public class MainActivity extends AppCompatActivity {
                                     // Sign in success, update UI with the signed-in user's information
                                     Log.d(TAG, "sign in success");
                                     Toast.makeText(MainActivity.this, "Successful login", Toast.LENGTH_LONG).show();
-                                    FirebaseUser user = auth.getCurrentUser();
                                     Intent intent3 = new Intent(MainActivity.this, Options.class);
+
                                     startActivity(intent3);
                                 } else {
                                     // If sign in fails, display a message to the user.

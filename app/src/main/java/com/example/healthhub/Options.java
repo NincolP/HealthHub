@@ -20,6 +20,8 @@ public class Options extends AppCompatActivity {
         Button logout = findViewById(R.id.logoutButton);
 
 
+
+
         //Take the user to the make appointment activity
         makeAppoinmnet.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -30,18 +32,12 @@ public class Options extends AppCompatActivity {
         });
 
 
-
-
-
-
-
-
-
         //Log out will take user to main screen
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent logOut = new Intent(Options.this, MainActivity.class);
+
                 startActivity(logOut);
             }
         });

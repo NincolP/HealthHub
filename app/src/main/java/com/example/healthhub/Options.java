@@ -19,6 +19,8 @@ public class Options extends AppCompatActivity {
 
         Button logout = findViewById(R.id.logoutButton);
 
+        Button rx = findViewById(R.id.button4);
+
 
 
 
@@ -32,6 +34,16 @@ public class Options extends AppCompatActivity {
         });
 
 
+        //Take the user to the make appointment activity
+        rx.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent rx = new Intent(Options.this, FillRx.class);
+                startActivity(rx);
+            }
+        });
+
+
         //Log out will take user to main screen
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -41,6 +53,8 @@ public class Options extends AppCompatActivity {
                 startActivity(logOut);
             }
         });
+
+
 
 
 

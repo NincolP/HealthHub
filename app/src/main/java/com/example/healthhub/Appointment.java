@@ -31,6 +31,7 @@ public class Appointment extends AppCompatActivity {
         //To display back arrow that can take user back to MainActivity
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        //getSupportActionBar().
 
 
 

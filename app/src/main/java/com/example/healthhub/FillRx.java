@@ -3,10 +3,12 @@ package com.example.healthhub;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -29,8 +31,20 @@ public class FillRx extends AppCompatActivity {
         setContentView(R.layout.activity_fill_rx);
 
         //To display back arrow that can take user back to MainActivity
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        Button button = findViewById(R.id.button7);
+
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent backToOptions = new Intent(FillRx.this, Options.class);
+                startActivity(backToOptions);
+
+            }
+        });
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 

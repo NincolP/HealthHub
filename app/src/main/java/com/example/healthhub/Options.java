@@ -26,7 +26,7 @@ public class Options extends AppCompatActivity {
         makeAppoinmnet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent makeAppointment = new Intent(Options.this, MakeAppointment.class);
+                Intent makeAppointment = new Intent(Options.this, Appointment.class);
                 startActivity(makeAppointment);
             }
         });

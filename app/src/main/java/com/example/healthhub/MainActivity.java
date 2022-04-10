@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
                                 if (task.isSuccessful()) {
                                     // Sign in success, update UI with the signed-in user's information
                                     Log.d(TAG, "sign in success");
-                                    Toast.makeText(MainActivity.this, "Successful login", Toast.LENGTH_LONG).show();
+                                    //Toast.makeText(MainActivity.this, "Successful login", Toast.LENGTH_LONG).show();
                                     Intent intent3 = new Intent(MainActivity.this, Options.class);
 
                                     startActivity(intent3);

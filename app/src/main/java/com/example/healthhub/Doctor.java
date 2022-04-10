@@ -1,12 +1,13 @@
 package com.example.healthhub;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class Doctor {
 
     private String name;
     private String specialty;
-    private ArrayList<String> AvailableTimes;
+    private List<String> AvailableTimes;
+    public String time;
     private String address;
     private String suite;
     private String city;
@@ -34,17 +35,29 @@ public class Doctor {
     }
 
     public void setSpecialty(String specialty) {
+
         this.specialty = specialty;
     }
 
 
-    public void setAvailableTimes(ArrayList<String> times) {
-        AvailableTimes.addAll(times);
+    public void setAvailableTimes(List<String> incoming) {
+        AvailableTimes = incoming;
+
+
     }
+
+    /*public void setAvailableTimes(String s) {
+        AvailableTimes.add(s);
+
+       *//* for(int i = 0; i < incoming.size(); i++) {
+            String time = incoming.get(i);
+            AvailableTimes.add(time);
+        }*//*
+    }*/
 
     public String getAvailableTimes(int index) {
 
-        return AvailableTimes.get(index);
+        return AvailableTimes.get(index).toString();
     }
 
     public String getAddress() {

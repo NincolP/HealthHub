@@ -28,6 +28,11 @@ public class Appointment extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_appointment);
 
+        //To display back arrow that can take user back to MainActivity
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 

@@ -28,6 +28,10 @@ public class FillRx extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fill_rx);
 
+        //To display back arrow that can take user back to MainActivity
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         FirebaseAuth auth = FirebaseAuth.getInstance();

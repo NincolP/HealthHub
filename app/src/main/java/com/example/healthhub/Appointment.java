@@ -66,26 +66,13 @@ public class Appointment extends AppCompatActivity {
                             int index = 0;
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
-
-                                /*String name = document.get("name").toString();
-                                String specialty = document.get("specialty").toString();
-                                list.add(name);*/
-
                                 list.add((document.get("name").toString()) + "-" + document.get("specialty").toString());
-                                //list.add("hola");
-
                                 listOfDocs.add(document.toObject(Doctor.class));
                                 AvailableTimes.add(Objects.requireNonNull(document.get("AvailableTimes")).toString());
                                 listOfDocs.get(index).setAvailableTimes(AvailableTimes);
                                 index++;
 
-                                //Log.d(TAG, document.get("AvailableTimes").toString());
 
-                                //Log.d(TAG, AvailableTimes.get(index));
-
-                                Log.d(TAG, listOfDocs.get(0).getName());
-
-                                Log.d(TAG, listOfDocs.get(0).getSpecialty());
                             }
 
                         }

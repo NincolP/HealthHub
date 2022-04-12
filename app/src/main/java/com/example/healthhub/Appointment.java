@@ -1,9 +1,12 @@
 package com.example.healthhub;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -29,8 +32,8 @@ public class Appointment extends AppCompatActivity {
         setContentView(R.layout.activity_appointment);
 
         //To display back arrow that can take user back to MainActivity
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setDisplayShowHomeEnabled(true);
         //getSupportActionBar().
 
 
@@ -41,14 +44,18 @@ public class Appointment extends AppCompatActivity {
         String doc = auth.getCurrentUser().getUid();
 
 
-        //Spinner to select doctor
+        //List to store doctor's names
+        ArrayList<String> list = new ArrayList<>();
 
-        List<String> list = new ArrayList<>();
+
 
         //Array of Doctor objects to hold all doctors
         ArrayList<Doctor> listOfDocs = new ArrayList<Doctor>();
 
         List<String> AvailableTimes = new ArrayList<>();
+
+        Spinner spinner = findViewById(R.id.spinner);
+
         //THIS CODE GETS DOCTOR'S NAME AND SPECIALTY FROM DATABASE OF DOCTORS INTO A SPINNER
         db.collection("Users").document(doc).collection("Doctors")
                 .get()
@@ -58,49 +65,65 @@ public class Appointment extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             int index = 0;
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                //Log.d(TAG, document.getId() + " => " + document.getData());
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+
+                                /*String name = document.get("name").toString();
+                                String specialty = document.get("specialty").toString();
+                                list.add(name);*/
 
                                 list.add((document.get("name").toString()) + "-" + document.get("specialty").toString());
+                                //list.add("hola");
+
                                 listOfDocs.add(document.toObject(Doctor.class));
                                 AvailableTimes.add(Objects.requireNonNull(document.get("AvailableTimes")).toString());
                                 listOfDocs.get(index).setAvailableTimes(AvailableTimes);
-
                                 index++;
 
                                 //Log.d(TAG, document.get("AvailableTimes").toString());
 
                                 //Log.d(TAG, AvailableTimes.get(index));
 
-                                //Log.d(TAG, listOfDocs.get(0).getSpecialty());
+                                Log.d(TAG, listOfDocs.get(0).getName());
+
+                                Log.d(TAG, listOfDocs.get(0).getSpecialty());
                             }
 
                         }
                         else {
-                            //Log.d(TAG, "Error getting documents: ", task.getException());
+                            Log.d(TAG, "Error getting documents: ", task.getException());
                         }
+
+                        ArrayAdapter<String> adapter = new ArrayAdapter<String>(Appointment.this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,list);
+                        spinner.setAdapter(adapter);
+                        adapter.notifyDataSetChanged();
+
                     }
 
                 });
 
-        Spinner spinner = findViewById(R.id.spinner);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,list);
-        spinner.setAdapter(adapter);
-        //adapter.notifyDataSetChanged();
+        //Select a data and time
+        Spinner spinnerTwo = findViewById(R.id.spinner3);
 
-        /*Button button = findViewById(R.id.button6);
-
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String itemSelected = spinner.getSelectedItem().toString();
-                Toast.makeText(Appointment.this, itemSelected, Toast.LENGTH_LONG).show();
-            }
-        });*/
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(Appointment.this, "item selected", Toast.LENGTH_LONG).show();
+                String itemSelected = adapterView.getSelectedItem().toString();
+
+                Toast.makeText(Appointment.this,itemSelected,Toast.LENGTH_LONG).show();
+
+                ArrayList<String> listTwo = new ArrayList<>();
+                ArrayAdapter<String> adapter2 = new ArrayAdapter<>(Appointment.this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,listTwo);
+                spinnerTwo.setAdapter(adapter2);
+                adapter2.notifyDataSetChanged();
+
+                int index = adapterView.getSelectedItemPosition();
+                //listTwo.add(listOfDocs.get(index).
+                for(int j = 0; j < listOfDocs.get(index).getAvailableSize(); j++) {
+                    listTwo.add(listOfDocs.get(index).getAvailableTimes(j));
+                }
+
+                //adapter2.notifyDataSetChanged();
             }
 
             @Override

@@ -7,7 +7,7 @@ public class Doctor {
     private String name;
     private String specialty;
     private List<String> AvailableTimes;
-    public String time;
+    public String[] times;
     private String address;
     private String suite;
     private String city;
@@ -27,6 +27,7 @@ public class Doctor {
     }
 
     public void setName(String name) {
+
         this.name = name;
     }
 
@@ -43,21 +44,26 @@ public class Doctor {
     public void setAvailableTimes(List<String> incoming) {
         AvailableTimes = incoming;
 
+        for(int i = 0; i < AvailableTimes.size(); i++) {
+            times = AvailableTimes.get(i).split(",");
+
+        }
+
 
     }
 
-    /*public void setAvailableTimes(String s) {
-        AvailableTimes.add(s);
+    /*public void getTimes() {
+        for(int i = 0; i < AvailableTimes.size(); i++) {
+            times = AvailableTimes.get(i).split(",");
 
-       *//* for(int i = 0; i < incoming.size(); i++) {
-            String time = incoming.get(i);
-            AvailableTimes.add(time);
-        }*//*
+        }
+
     }*/
+
 
     public String getAvailableTimes(int index) {
 
-        return AvailableTimes.get(index).toString();
+        return times[index].toString();
     }
 
     public String getAddress() {

@@ -14,6 +14,16 @@ public class Doctor {
     private String state;
     private String zipcode;
 
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    private String phoneNumber;
+
     public Doctor() {
 
     }
@@ -40,25 +50,12 @@ public class Doctor {
         this.specialty = specialty;
     }
 
-
     public void setAvailableTimes(List<String> incoming) {
         AvailableTimes = incoming;
-
         for(int i = 0; i < AvailableTimes.size(); i++) {
             times = AvailableTimes.get(i).split(",");
-
         }
-
-
     }
-
-    /*public void getTimes() {
-        for(int i = 0; i < AvailableTimes.size(); i++) {
-            times = AvailableTimes.get(i).split(",");
-
-        }
-
-    }*/
 
 
     public String getAvailableTimes(int index) {

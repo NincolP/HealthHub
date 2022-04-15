@@ -156,8 +156,6 @@ public class Appointment extends AppCompatActivity {
 
                 selectedTime = adapterView.getSelectedItem().toString();
 
-
-
                 StringBuilder stringBuilder = new StringBuilder();
                 stringBuilder.append("Appointment Summary: " + "\n" + "\n");
                 stringBuilder.append("Doctor's Name: " + listOfDocs.get(doctorIndex[0]).getName() + "\n" );
@@ -170,7 +168,6 @@ public class Appointment extends AppCompatActivity {
                 stringBuilder.append("Telephone Number: " + listOfDocs.get(doctorIndex[0]).getPhoneNumber() + "\n");
                 stringBuilder.append("Appointment Time: " + adapterView.getSelectedItem().toString() + "\n");
                 textView.setText(stringBuilder);
-
 
             }
 
@@ -214,11 +211,12 @@ public class Appointment extends AppCompatActivity {
                             }
                         });
 
-                DocumentReference document = db.collection("Users").document(doc).collection("Doctors").document(docId);
+                //DocumentReference document = db.collection("Users").document(doc).collection("Doctors").document(docId);
                 //document.update("AvailableTimes", FieldValue.arrayRemove());
                 //String id = document.getId();
                 //Toast.makeText(Appointment.this, id, Toast.LENGTH_LONG).show();
 
+                Toast.makeText(Appointment.this, "Appointment Confirmed", Toast.LENGTH_LONG).show();
 
 
 

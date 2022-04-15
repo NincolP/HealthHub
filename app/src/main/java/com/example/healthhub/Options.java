@@ -3,7 +3,6 @@ package com.example.healthhub;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.graphics.Path;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -17,9 +16,15 @@ public class Options extends AppCompatActivity {
 
         Button makeAppoinmnet = findViewById(R.id.button3);
 
-        Button logout = findViewById(R.id.logoutButton);
-
         Button rx = findViewById(R.id.button4);
+
+        Button labreport = findViewById(R.id.button5);
+
+
+
+
+
+        Button logout = findViewById(R.id.logoutButton);
 
 
 
@@ -42,6 +47,17 @@ public class Options extends AppCompatActivity {
                 startActivity(rx);
             }
         });
+
+        //Take the user to the make appointment activity
+                labreport.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent labreport = new Intent(Options.this, ReportsActivity.class);
+                        startActivity(labreport);
+                    }
+                });
+
+
 
 
         //Log out will take user to main screen

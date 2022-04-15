@@ -100,7 +100,8 @@ public class Appointment extends AppCompatActivity {
                                 index++;
 
                             }
-                        } else {
+                        } 
+                        else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
                         }
 
@@ -116,15 +117,11 @@ public class Appointment extends AppCompatActivity {
         Spinner spinnerTwo = findViewById(R.id.spinner3);
 
 
+        //First spinner action. Loads second spinner with corresponding available appointment times.
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                String itemSelected = adapterView.getSelectedItem().toString();
-                //Toast.makeText(Appointment.this,itemSelected,Toast.LENGTH_LONG).show();
-
                 ArrayList<String> listTwo = new ArrayList<>();
-
-
                 int index = adapterView.getSelectedItemPosition();
                 doctorIndex[0] = index;
 
@@ -135,19 +132,16 @@ public class Appointment extends AppCompatActivity {
                 ArrayAdapter<String> adapter2 = new ArrayAdapter<>(Appointment.this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, listTwo);
                 spinnerTwo.setAdapter(adapter2);
                 adapter2.notifyDataSetChanged();
-
-
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
                 Toast.makeText(Appointment.this, "Nothing selected", Toast.LENGTH_LONG).show();
-
             }
         });
 
 
-        //Spinner two functionality----------------------------------------------------------------------
+        //Spinner two functionality. Displays appointment summary data into textview
         spinnerTwo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -179,6 +173,7 @@ public class Appointment extends AppCompatActivity {
         });
         //-----------------------------------------------------------------------------------------------
 
+        //Button functionality. TODO working on a way to delete selected available time from the database
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

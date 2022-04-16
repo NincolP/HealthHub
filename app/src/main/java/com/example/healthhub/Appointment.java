@@ -32,16 +32,18 @@ import java.util.List;
 import java.util.Objects;
 
 public class Appointment extends AppCompatActivity {
-    String selectedTime ;
+    String itemSelected ;
 
     String docId;
+
+    int docIndex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_appointment);
 
-        final int[] doctorIndex = new int[1];
+        //final int doctorIndex = new int[1];
         final int[] appointmentTimeIndex = new int[1];
 
 
@@ -123,10 +125,12 @@ public class Appointment extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 ArrayList<String> listTwo = new ArrayList<>();
                 int index = adapterView.getSelectedItemPosition();
-                doctorIndex[0] = index;
+                docIndex =index;
 
-                for (int j = 0; j < listOfDocs.get(index).getAvailableSize(); j++) {
-                    listTwo.add(listOfDocs.get(index).getAvailableTimes(j));
+
+
+                for (int j = 0; j < listOfDocs.get(docIndex).getAvailableSize(); j++) {
+                    listTwo.add(listOfDocs.get(docIndex).getAvailableTimes(j));
                 }
 
                 ArrayAdapter<String> adapter2 = new ArrayAdapter<>(Appointment.this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, listTwo);
@@ -145,22 +149,20 @@ public class Appointment extends AppCompatActivity {
         spinnerTwo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                int index = adapterView.getSelectedItemPosition();
-                //appointmentTimeIndex[0] = index;
-
-                selectedTime = adapterView.getSelectedItem().toString();
 
                 StringBuilder stringBuilder = new StringBuilder();
                 stringBuilder.append("Appointment Summary: " + "\n" + "\n");
-                stringBuilder.append("Doctor's Name: " + listOfDocs.get(doctorIndex[0]).getName() + "\n" );
-                stringBuilder.append("Specialty: " + listOfDocs.get(doctorIndex[0]).getSpecialty() + "\n");
-                stringBuilder.append("Address : " + listOfDocs.get(doctorIndex[0]).getAddress() + "\n");
-                stringBuilder.append("Suite: " + listOfDocs.get(doctorIndex[0]).getSuite() + "\n");
-                stringBuilder.append("City: " + listOfDocs.get(doctorIndex[0]).getCity() + "\n");
-                stringBuilder.append("State: " + listOfDocs.get(doctorIndex[0]).getState() + "\n");
-                stringBuilder.append("Zipcode : " + listOfDocs.get(doctorIndex[0]).getZipCode() + "\n");
-                stringBuilder.append("Telephone Number: " + listOfDocs.get(doctorIndex[0]).getPhoneNumber() + "\n");
+                stringBuilder.append("Doctor's Name: " + listOfDocs.get(docIndex).getName() + "\n" );
+                stringBuilder.append("Specialty: " + listOfDocs.get(docIndex).getSpecialty() + "\n");
+                stringBuilder.append("Address : " + listOfDocs.get(docIndex).getAddress() + "\n");
+                stringBuilder.append("Suite: " + listOfDocs.get(docIndex).getSuite() + "\n");
+                stringBuilder.append("City: " + listOfDocs.get(docIndex).getCity() + "\n");
+                stringBuilder.append("State: " + listOfDocs.get(docIndex).getState() + "\n");
+                stringBuilder.append("Zipcode : " + listOfDocs.get(docIndex).getZipCode() + "\n");
+                stringBuilder.append("Telephone Number: " + listOfDocs.get(docIndex).getPhoneNumber() + "\n");
                 stringBuilder.append("Appointment Time: " + adapterView.getSelectedItem().toString() + "\n");
+
+                itemSelected = adapterView.getSelectedItem().toString();
                 textView.setText(stringBuilder);
 
             }
@@ -178,7 +180,7 @@ public class Appointment extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                String docName = listOfDocs.get(doctorIndex[0]).getName();
+                String docName = listOfDocs.get(docIndex).getName();
 
                 DocumentReference docRef;
 
@@ -196,16 +198,15 @@ public class Appointment extends AppCompatActivity {
 
                                     }
 
-                                   /* db.collection("Users").document(doc).collection("Doctors").document(docId)
-                                            .update("AvailableTimes", FieldValue.arrayRemove(selectedTime));
-*/
-
-                                } else {
+                                }
+                                else {
                                     Log.d(TAG, "Error getting documents: ", task.getException());
                                 }
                             }
                         });
 
+                db.collection("Users").document(doc).collection("Doctors").document(docId)
+                        .update("AvailableTimes", FieldValue.arrayRemove(itemSelected));
                 //DocumentReference document = db.collection("Users").document(doc).collection("Doctors").document(docId);
                 //document.update("AvailableTimes", FieldValue.arrayRemove());
                 //String id = document.getId();
@@ -215,21 +216,6 @@ public class Appointment extends AppCompatActivity {
 
 
 
-                        //document.update("AvailableTimes", FieldValue.arrayRemove(selectedTime));
-
-               /* db.collection("Users").document(doc).collection("Doctors").document(docId)
-                        .update("AvailableTimes",FieldValue.arrayRemove(selectedTime)).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if(task.isSuccessful()) {
-                            Toast.makeText(Appointment.this, "Success", Toast.LENGTH_LONG).show();
-                        }
-
-                        else {
-                            Log.d(TAG, "error", task.getException());
-                        }
-                    }
-                });*/
 
 
             }//End of on-click

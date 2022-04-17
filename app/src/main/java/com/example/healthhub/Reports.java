@@ -1,8 +1,9 @@
 package com.example.healthhub;
 
-import java.util.List;
+import com.google.firebase.firestore.DocumentReference;
+
 //import java.util.ArrayList;
-import java.util.Objects;
+
 
 public class Reports {
 
@@ -11,7 +12,9 @@ public class Reports {
     private String providerAddress;
     private String phoneNumber;
     private String type;
-    private String Report;
+    private DocumentReference Report;
+
+    private String path;
 
 
     public Reports() {
@@ -57,12 +60,21 @@ public class Reports {
         this.type = type;
     }
 
-    public String Report() {
+
+    public void setReport(DocumentReference Report) {
+
+        path = Report.getPath();
+
+
+        this.Report = Report;
+    }
+
+    public DocumentReference getReport () {
         return Report;
     }
 
-    public void setReport(String Report) {
-        this.Report = Report;
+    public String getPath() {
+        return path;
     }
     
     

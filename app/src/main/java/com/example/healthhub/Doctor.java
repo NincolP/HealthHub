@@ -50,9 +50,11 @@ public class Doctor {
         this.specialty = specialty;
     }
 
-    public void setAvailableTimes(List<String> incoming) {
-        AvailableTimes = incoming;
+
+    public void setAvailableTimes(List<String> AvailableTimes) {
+        this. AvailableTimes = AvailableTimes;
         for(int i = 0; i < AvailableTimes.size(); i++) {
+
             times = AvailableTimes.get(i).split(",");
         }
     }

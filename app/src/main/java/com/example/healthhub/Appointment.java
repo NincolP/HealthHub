@@ -97,7 +97,12 @@ public class Appointment extends AppCompatActivity {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
                                 list.add((document.get("name").toString()) + "-" + document.get("specialty").toString());
                                 listOfDocs.add(document.toObject(Doctor.class));
-                                AvailableTimes.add(Objects.requireNonNull(document.get("AvailableTimes")).toString());
+
+                                String temp = document.get("AvailableTimes").toString().replace('[', ' ');
+                                temp = temp.replace(']', ' ');
+                                temp.trim();
+
+                                AvailableTimes.add(temp);
                                 listOfDocs.get(index).setAvailableTimes(AvailableTimes);
                                 index++;
 
@@ -165,9 +170,8 @@ public class Appointment extends AppCompatActivity {
                 itemSelected = adapterView.getSelectedItem().toString();
                 textView.setText(stringBuilder);
 
+                Log.d(TAG, itemSelected);
             }
-
-
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
 
@@ -182,7 +186,6 @@ public class Appointment extends AppCompatActivity {
 
                 String docName = listOfDocs.get(docIndex).getName();
 
-                DocumentReference docRef;
 
                 db.collection("Users").document(doc).collection("Doctors")
                         .whereEqualTo("name", docName)
@@ -195,24 +198,47 @@ public class Appointment extends AppCompatActivity {
                                     for (QueryDocumentSnapshot document : task.getResult()) {
                                         Log.d(TAG, document.getId() + " => " + document.getData());
                                         docId = document.getId();
-
                                     }
+
+                                    Log.d(TAG, docId);
+
+                                    //db.collection("Users").document(doc).collection("Doctors").document(docId)
+                                            //.update("AvailableTimes", FieldValue.arrayRemove(itemSelected)).getResult();
 
                                 }
                                 else {
                                     Log.d(TAG, "Error getting documents: ", task.getException());
                                 }
+                                DocumentReference ref = db.collection("Users").document(doc).collection("Doctors").document(docId);
+
+                                ref.update("AvailableTimes", FieldValue.arrayRemove("\"" +itemSelected+ "\"")).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if(task.isSuccessful()) {
+                                            Log.d(TAG,"Successful deletion ");
+                                            ref.get().toString();
+                                        }
+                                        else {
+                                            Log.d(TAG, "Something went wrong");
+                                        }
+                                    }
+                                });
+
+
                             }
                         });
 
-                db.collection("Users").document(doc).collection("Doctors").document(docId)
-                        .update("AvailableTimes", FieldValue.arrayRemove(itemSelected));
+
+
                 //DocumentReference document = db.collection("Users").document(doc).collection("Doctors").document(docId);
                 //document.update("AvailableTimes", FieldValue.arrayRemove());
                 //String id = document.getId();
                 //Toast.makeText(Appointment.this, id, Toast.LENGTH_LONG).show();
 
                 Toast.makeText(Appointment.this, "Appointment Confirmed", Toast.LENGTH_LONG).show();
+
+                Intent backToOptions = new Intent(Appointment.this, Options.class);
+                startActivity(backToOptions);
 
 
 

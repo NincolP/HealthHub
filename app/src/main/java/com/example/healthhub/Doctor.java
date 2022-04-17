@@ -1,5 +1,7 @@
 package com.example.healthhub;
 
+import com.google.android.gms.common.util.ArrayUtils;
+
 import java.util.List;
 
 public class Doctor {
@@ -29,7 +31,8 @@ public class Doctor {
     }
 
     public int getAvailableSize () {
-        return AvailableTimes.size();
+        return
+                times.length;
     }
 
     public String getName() {
@@ -64,6 +67,10 @@ public class Doctor {
 
         return times[index].toString();
     }
+
+   /* public void deleteTime (int index) {
+    }
+    */
 
     public String getAddress() {
         return address;

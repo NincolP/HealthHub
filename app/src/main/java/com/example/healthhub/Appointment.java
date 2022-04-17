@@ -38,13 +38,14 @@ public class Appointment extends AppCompatActivity {
 
     int docIndex;
 
+    Object iSel;
+
+    int appSelectedIndex;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_appointment);
-
-        //final int doctorIndex = new int[1];
-        final int[] appointmentTimeIndex = new int[1];
 
 
         //Back button can take user back to options menu
@@ -57,8 +58,6 @@ public class Appointment extends AppCompatActivity {
 
             }
         });
-
-
 
 
         //Instantiating database instance and capturing database userid
@@ -105,7 +104,6 @@ public class Appointment extends AppCompatActivity {
                                 AvailableTimes.add(temp);
                                 listOfDocs.get(index).setAvailableTimes(AvailableTimes);
                                 index++;
-
                             }
                         } 
                         else {
@@ -155,6 +153,9 @@ public class Appointment extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
+                int index = adapterView.getSelectedItemPosition();
+                appSelectedIndex = index;
+
                 StringBuilder stringBuilder = new StringBuilder();
                 stringBuilder.append("Appointment Summary: " + "\n" + "\n");
                 stringBuilder.append("Doctor's Name: " + listOfDocs.get(docIndex).getName() + "\n" );
@@ -168,6 +169,8 @@ public class Appointment extends AppCompatActivity {
                 stringBuilder.append("Appointment Time: " + adapterView.getSelectedItem().toString() + "\n");
 
                 itemSelected = adapterView.getSelectedItem().toString();
+
+
                 textView.setText(stringBuilder);
 
                 Log.d(TAG, itemSelected);
@@ -198,6 +201,7 @@ public class Appointment extends AppCompatActivity {
                                     for (QueryDocumentSnapshot document : task.getResult()) {
                                         Log.d(TAG, document.getId() + " => " + document.getData());
                                         docId = document.getId();
+                                         //iSel = document.getString(itemSelected);
                                     }
 
                                     Log.d(TAG, docId);
@@ -209,9 +213,15 @@ public class Appointment extends AppCompatActivity {
                                 else {
                                     Log.d(TAG, "Error getting documents: ", task.getException());
                                 }
+
+                                String selected = itemSelected.trim();
+
+                                //listOfDocs.get(docIndex).getAvailableTimes(appSelectedIndex).
                                 DocumentReference ref = db.collection("Users").document(doc).collection("Doctors").document(docId);
 
-                                ref.update("AvailableTimes", FieldValue.arrayRemove("\"" +itemSelected+ "\"")).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                //ref.update("AvailableTimes", FieldValue.arrayRemove(iSel) {
+
+                                ref.update("AvailableTimes", FieldValue.arrayRemove(selected)).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if(task.isSuccessful()) {
@@ -236,6 +246,8 @@ public class Appointment extends AppCompatActivity {
                 //Toast.makeText(Appointment.this, id, Toast.LENGTH_LONG).show();
 
                 Toast.makeText(Appointment.this, "Appointment Confirmed", Toast.LENGTH_LONG).show();
+
+                //db.terminate();
 
                 Intent backToOptions = new Intent(Appointment.this, Options.class);
                 startActivity(backToOptions);

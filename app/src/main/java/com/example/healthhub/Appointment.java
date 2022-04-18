@@ -113,7 +113,6 @@ public class Appointment extends AppCompatActivity {
                         ArrayAdapter<String> adapter = new ArrayAdapter<String>(Appointment.this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, list);
                         spinner.setAdapter(adapter);
                         adapter.notifyDataSetChanged();
-
                     }
 
                 });
@@ -203,12 +202,7 @@ public class Appointment extends AppCompatActivity {
                                         docId = document.getId();
                                          //iSel = document.getString(itemSelected);
                                     }
-
                                     Log.d(TAG, docId);
-
-                                    //db.collection("Users").document(doc).collection("Doctors").document(docId)
-                                            //.update("AvailableTimes", FieldValue.arrayRemove(itemSelected)).getResult();
-
                                 }
                                 else {
                                     Log.d(TAG, "Error getting documents: ", task.getException());
@@ -216,11 +210,8 @@ public class Appointment extends AppCompatActivity {
 
                                 String selected = itemSelected.trim();
 
-                                //listOfDocs.get(docIndex).getAvailableTimes(appSelectedIndex).
+                                //Storing reference of document
                                 DocumentReference ref = db.collection("Users").document(doc).collection("Doctors").document(docId);
-
-                                //ref.update("AvailableTimes", FieldValue.arrayRemove(iSel) {
-
                                 ref.update("AvailableTimes", FieldValue.arrayRemove(selected)).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
@@ -238,29 +229,13 @@ public class Appointment extends AppCompatActivity {
                             }
                         });
 
-
-
-                //DocumentReference document = db.collection("Users").document(doc).collection("Doctors").document(docId);
-                //document.update("AvailableTimes", FieldValue.arrayRemove());
-                //String id = document.getId();
-                //Toast.makeText(Appointment.this, id, Toast.LENGTH_LONG).show();
-
                 Toast.makeText(Appointment.this, "Appointment Confirmed", Toast.LENGTH_LONG).show();
-
-                //db.terminate();
 
                 Intent backToOptions = new Intent(Appointment.this, Options.class);
                 startActivity(backToOptions);
 
-
-
-
-
             }//End of on-click
-
-
-
         });//End of button listener
 
-    }
-}
+    }//End of on create
+}//End of class

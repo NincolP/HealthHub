@@ -68,9 +68,6 @@ public class Doctor {
         return times[index].toString();
     }
 
-   /* public void deleteTime (int index) {
-    }
-    */
 
     public String getAddress() {
         return address;

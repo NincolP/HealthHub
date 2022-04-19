@@ -13,8 +13,19 @@ public class Reports {
     private String phoneNumber;
     private String type;
     private DocumentReference Report;
+    private String reportId;
 
     private String path;
+
+    public String getReportId() {
+        return reportId;
+    }
+
+    public void setReportId(String reportId) {
+        this.reportId = reportId;
+    }
+
+
 
 
     public Reports() {

@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">HealthHub</string>
+    <string name="todo">todo</string>
+    <string name="back">back</string>
 </resources>

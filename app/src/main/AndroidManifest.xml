@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HealthHub">
         <activity
+            android:name=".labView"
+            android:exported="false" />
+        <activity
             android:name=".ReportsActivity"
             android:exported="false" />
         <activity

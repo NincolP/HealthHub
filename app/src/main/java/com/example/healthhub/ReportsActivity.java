@@ -3,10 +3,12 @@ package com.example.healthhub;
 import static android.content.ContentValues.TAG;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.media.Image;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -32,6 +35,7 @@ public class ReportsActivity extends AppCompatActivity {
 
     int documentIndex;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,9 +50,11 @@ public class ReportsActivity extends AppCompatActivity {
 
         Spinner type = findViewById(R.id.spinner4);
 
-        ImageView imageView = (ImageView) findViewById(R.id.imageView);
+        TextView message = findViewById(R.id.textView6);
 
-        //WebView webView = (WebView) findViewById(R.id.webView);
+
+
+
 
         ArrayList<String> types = new ArrayList<>();
 
@@ -72,14 +78,17 @@ public class ReportsActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
               if(task.isSuccessful()) {
 
-                  //int index = 0;
+                  int index = 0;
                   for (QueryDocumentSnapshot document : task.getResult()) {
+
                       Log.d(TAG, document.getId() + " => " + document.getData());
                       types.add(document.get("type").toString());
 
                       //THis should load lab reports information into an array of lab reports
                       reports.add(document.toObject(Reports.class));
+                      reports.get(index).setReportId(document.getId());
 
+                      Log.d(TAG, document.getId());
                   }
               }
 
@@ -104,16 +113,7 @@ public class ReportsActivity extends AppCompatActivity {
                 Log.d(TAG, reports.get(index).getReport().toString());
 
 
-                /* Glide.with(ReportsActivity.this).
-                        load(reports.get(index).getPath()).
-                        into(imageView);*/
 
-
-
-
-                //for(int j = 0; j < reports.size();i++ ) {
-
-                //}
 
 
             }
@@ -124,11 +124,30 @@ public class ReportsActivity extends AppCompatActivity {
             }
         });
 
+        message.setText("Click on next to see report");
+
+        //textView6 = (TextView) findViewById(R.id.textView6);
+                //textView6.setText(TextView.AUT);
+
+        Button button1 = findViewById(R.id.button10);
+       // button1.setOnClickListener(v -> openNEXT());
+
+        button1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ReportsActivity.this, labView.class);
+                startActivity(intent);
+            }
+        });
+
+    }
+    //public void openNEXT () {
+       // Intent intent = new Intent(ReportsActivity.this, labView.class);
+       // startActivity(intent);
 
     }
 
-
-}
+//}
 
 
 

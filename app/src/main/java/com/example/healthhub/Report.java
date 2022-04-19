@@ -5,7 +5,7 @@ import com.google.firebase.firestore.DocumentReference;
 //import java.util.ArrayList;
 
 
-public class Reports {
+public class Report {
 
     private String Date;
     private String providerName;
@@ -14,8 +14,45 @@ public class Reports {
     private String type;
     private DocumentReference Report;
     private String reportId;
-
+    private String city;
+    private String state;
+    private String zipCode;
+    private String unitNumber;
     private String path;
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getZipCode() {
+        return zipCode;
+    }
+
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
+    }
+
+    public String getUnitNumber() {
+        return unitNumber;
+    }
+
+    public void setUnitNumber(String unitNumber) {
+        this.unitNumber = unitNumber;
+    }
+
+
 
     public String getReportId() {
         return reportId;
@@ -26,9 +63,7 @@ public class Reports {
     }
 
 
-
-
-    public Reports() {
+    public Report() {
     }
 
     public String getDate() {
@@ -36,18 +71,22 @@ public class Reports {
     }
 
     public void setDate(String Date) {
+
         this.Date = Date;
     }
 
     public String getProviderName() {
+
         return providerName;
     }
 
     public void setProviderName(String providerName) {
+
         this.providerName = providerName;
     }
 
-    public String providerAddress() {
+    public String getProviderAddress() {
+
         return providerAddress;
     }
 
@@ -55,11 +94,12 @@ public class Reports {
         this.providerAddress = providerAddress;
     }
 
-    public String phoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
     public void setPhoneNumber(String phoneNumber) {
+
         this.phoneNumber = phoneNumber;
     }
 
@@ -68,15 +108,13 @@ public class Reports {
     }
 
     public void setType(String type) {
+
         this.type = type;
     }
 
 
     public void setReport(DocumentReference Report) {
-
         path = Report.getPath();
-
-
         this.Report = Report;
     }
 

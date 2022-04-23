@@ -73,7 +73,7 @@ public class labView extends AppCompatActivity {
         }
 
 
-        //Back Button
+        //Back Button fuctionality
         mButton.setOnClickListener((View v) -> {
             Intent backToReportsActivity = new Intent(labView.this, ReportsActivity.class);
             startActivity(backToReportsActivity);

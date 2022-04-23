@@ -53,7 +53,6 @@ public class Report {
     }
 
 
-
     public String getReportId() {
         return reportId;
     }

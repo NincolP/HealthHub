@@ -150,8 +150,6 @@ public class ReportsActivity extends AppCompatActivity {
 
                 summary.setText(stringBuilder);
 
-
-
             }
 
             @Override
@@ -162,9 +160,7 @@ public class ReportsActivity extends AppCompatActivity {
 
         message.setText("Click on next to see report");
 
-
         Button button1 = findViewById(R.id.button10);
-
 
         button1.setOnClickListener(new View.OnClickListener() {
             @Override

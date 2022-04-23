@@ -18,6 +18,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -25,6 +26,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
+import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -34,6 +36,8 @@ import java.io.IOException;
 
 public class labView extends AppCompatActivity {
 
+    StorageReference stoRef;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,49 +45,32 @@ public class labView extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
 
         String url = bundle.getString("url");
-
-        String useID = bundle.getString("Userid");
-        String documentiD = bundle.getString("documentId");
+        String user = bundle.getString("Userid");
+        String docId = bundle.getString("documentId");
 
         Log.d(TAG, url);
 
-
+        ImageView imageView = (ImageView) findViewById(R.id.imageView2);
         Button mButton = findViewById(R.id.button11);
 
-        WebView webView = (WebView) findViewById(R.id.webView);
 
-        webView.getSettings().setLoadsImagesAutomatically(true);
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
-        webView.setWebViewClient(new WebViewClient());
-        webView.loadUrl(url);
+        stoRef = FirebaseStorage.getInstance().getReference().child(url);
 
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        //auth.updateCurrentUser(useID);
-        //String doc = auth.getCurrentUser().getUid();
+        try {
+            final File localFile = File.createTempFile("tempFile", "jpg");
+            stoRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                    Toast.makeText(labView.this, "local file is fine", Toast.LENGTH_LONG).show();
 
-        //StorageReference ref = FirebaseStorage.getInstance().getReferenceFromUrl(url);
-
-        //StorageReference doc = ref.child("bloodwork.jpg");
-
-       /* doc.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
-            @Override
-            public void onComplete(@NonNull Task<Uri> task) {
-
-            }
-
-
-        });*/
-
-
-
-
-
-        //DocumentReference ref = db.collection("Users").document(useID)
-                //.collection("Lab Reports").document(documentiD);
-
-
+                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                    imageView.setImageBitmap(bitmap);
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+            Log.d(TAG, "Something went wrong");
+        }
 
 
         mButton.setOnClickListener((View v) -> {
@@ -91,17 +78,5 @@ public class labView extends AppCompatActivity {
             startActivity(backToReportsActivity);
         });
 
-        /*com.google.firebase.storage.StorageReference mStorageReference = FirebaseStorage.getInstance().getReference().child("labReports/bloodWork.jpg");
-        try {
-            final File localFile = File.createTempFile("bloodWork", "jpg");
-            mStorageReference.getFile(localFile)
-                    .addOnSuccessListener(taskSnapshot -> {
-                        Toast.makeText(labView.this, "LabReports Retrieved", Toast.LENGTH_SHORT).show();
-                        Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
-                        ((ImageView) findViewById(R.id.imageView)).setImageBitmap(bitmap);
-                    }).addOnFailureListener(ioException -> Toast.makeText(labView.this, "Error Occurred", Toast.LENGTH_SHORT).show());
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
-        }*/
     }
 }

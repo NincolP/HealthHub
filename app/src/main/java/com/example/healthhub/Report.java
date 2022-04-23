@@ -12,13 +12,13 @@ public class Report {
     private String providerAddress;
     private String phoneNumber;
     private String type;
-    private DocumentReference Report;
+    private String Report;
     private String reportId;
     private String city;
     private String state;
     private String zipCode;
     private String unitNumber;
-    private String path;
+
 
     public String getCity() {
         return city;
@@ -113,18 +113,13 @@ public class Report {
     }
 
 
-    public void setReport(DocumentReference Report) {
-        path = Report.getPath();
+    public void setReport(String Report) {
+
         this.Report = Report;
     }
 
-    public DocumentReference getReport () {
+    public String getReport () {
         return Report;
     }
 
-    public String getPath() {
-        return path;
-    }
-    
-    
 }

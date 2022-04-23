@@ -7,6 +7,8 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,29 +16,37 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import java.net.URL;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class ReportsActivity extends AppCompatActivity {
 
-    String url;
+    String childImage;
 
     int documentIndex;
 
     String docID;
 
     String userID;
+
+    StorageReference stoRef;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -59,17 +69,13 @@ public class ReportsActivity extends AppCompatActivity {
 
         TextView message = findViewById(R.id.textView6);
 
-
-
-
+        TextView summary = findViewById(R.id.textView7);
 
 
 
         ArrayList<String> types = new ArrayList<>();
 
         ArrayList<Report> reports = new ArrayList<>();
-
-        //Reports report = new Reports();
 
 
         button.setOnClickListener(new View.OnClickListener() {
@@ -120,16 +126,29 @@ public class ReportsActivity extends AppCompatActivity {
 
                 documentIndex = index;
 
+                Log.d(TAG, reports.get(index).getReport());
 
-
-                Log.d(TAG, reports.get(index).getReport().getPath());
-
-                url = reports.get(index).getReport().getPath();
+                childImage = reports.get(index).getReport();
 
                 docID = reports.get(index).getReportId();
 
+                //stoRef = FirebaseStorage.getInstance().getReference().child(childImage);
 
+                StringBuilder stringBuilder = new StringBuilder();
 
+                stringBuilder.append("Lab Report Summary: " + "\n" + "\n");
+                stringBuilder.append("Provider's name: " + reports.get(documentIndex).getProviderName() + "\n" );
+                stringBuilder.append("Report Type: " + reports.get(documentIndex).getType()+ "\n" );
+
+                stringBuilder.append("Date: " + reports.get(documentIndex).getDate()+ "\n" );
+                stringBuilder.append("Provider's Address: " + reports.get(documentIndex).getProviderAddress() + "\n" );
+                stringBuilder.append("Provider's Unit Number: " + reports.get(documentIndex).getUnitNumber() + "\n" );
+                stringBuilder.append("Provider's City: " + reports.get(documentIndex).getCity() + "\n" );
+                stringBuilder.append("Provider's State: " + reports.get(documentIndex).getState() + "\n" );
+                stringBuilder.append("Provider's Zipcode: " + reports.get(documentIndex).getZipCode() + "\n" );
+                stringBuilder.append("Provider's Phone Number: " + reports.get(documentIndex).getPhoneNumber() + "\n" );
+
+                summary.setText(stringBuilder);
 
 
 
@@ -143,35 +162,32 @@ public class ReportsActivity extends AppCompatActivity {
 
         message.setText("Click on next to see report");
 
-        //textView6 = (TextView) findViewById(R.id.textView6);
-                //textView6.setText(TextView.AUT);
 
         Button button1 = findViewById(R.id.button10);
-       // button1.setOnClickListener(v -> openNEXT());
+
 
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ReportsActivity.this, labView.class);
 
+                Intent intent = new Intent(ReportsActivity.this, labView.class);
                 //Create the bundle
                 Bundle bundle = new Bundle();
-                bundle.putString("url", url);
+                bundle.putString("url", childImage);
                 bundle.putString("documentId", docID);
                 bundle.putString("Userid", userID);
+
                 intent.putExtras(bundle);
                 startActivity(intent);
+
             }
         });
 
     }
-    //public void openNEXT () {
-       // Intent intent = new Intent(ReportsActivity.this, labView.class);
-       // startActivity(intent);
 
-    }
 
-//}
+}
+
 
 
 

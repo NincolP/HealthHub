@@ -61,8 +61,6 @@ public class labView extends AppCompatActivity {
             stoRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                    Toast.makeText(labView.this, "local file is fine", Toast.LENGTH_LONG).show();
-
                     Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
                     imageView.setImageBitmap(bitmap);
                 }
@@ -71,7 +69,6 @@ public class labView extends AppCompatActivity {
             e.printStackTrace();
             Log.d(TAG, "Something went wrong");
         }
-
 
         //Back Button fuctionality
         mButton.setOnClickListener((View v) -> {

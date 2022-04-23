@@ -84,7 +84,6 @@ public class Appointment extends AppCompatActivity {
         //THIS CODE GETS DOCTOR'S NAME AND SPECIALTY FROM DATABASE OF DOCTORS INTO A SPINNER
         //It also gets other doctors data from the database for each doctor and loads it in am
         //array of doctors objects.
-
         db.collection("Users").document(doc).collection("Doctors")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -181,7 +180,7 @@ public class Appointment extends AppCompatActivity {
         });
         //-----------------------------------------------------------------------------------------------
 
-        //Button functionality. TODO working on a way to delete selected available time from the database
+        //Button functionality.
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

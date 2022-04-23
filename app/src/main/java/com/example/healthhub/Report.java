@@ -112,7 +112,6 @@ public class Report {
         this.type = type;
     }
 
-
     public void setReport(String Report) {
 
         this.Report = Report;

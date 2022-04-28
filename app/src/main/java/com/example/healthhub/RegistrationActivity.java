@@ -78,6 +78,7 @@ public class RegistrationActivity extends AppCompatActivity {
                user.setState(state.getText().toString());
                user.setZipCode(zipCode.getText().toString());
                user.setEmail(email.getText().toString());
+               user.setAddress(address.getText().toString());
                user.setPassword(password.getText().toString());
 
 

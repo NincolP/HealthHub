@@ -51,7 +51,8 @@ public class resetUserOrPass extends AppCompatActivity {
                                     Log.d(TAG, "Email sent.");
                                     Toast.makeText(resetUserOrPass.this, "Password reset email has been sent. Check your email", Toast.LENGTH_LONG).show();
                                     //After reset email has been sent, user will be taken to the log in page.
-                                    Intent login = new Intent(resetUserOrPass.this, Login.class);
+                                    Intent login = new Intent(resetUserOrPass.this, MainActivity.class);
+                                    startActivity(login);
                                 }
 
 
